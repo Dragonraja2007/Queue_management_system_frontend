@@ -1,0 +1,627 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols font loaded via first link above -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#fcf9f8",
+                        "primary-container": "#102a43",
+                        "on-secondary-container": "#007233",
+                        "inverse-primary": "#b0c9e8",
+                        "secondary-fixed-dim": "#79db8d",
+                        "on-tertiary-fixed-variant": "#5d4119",
+                        "secondary-fixed": "#95f8a7",
+                        "tertiary-container": "#3b2400",
+                        "background": "#fcf9f8",
+                        "surface-container-high": "#eae7e7",
+                        "surface-container": "#f0eded",
+                        "on-background": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#005323",
+                        "inverse-surface": "#303030",
+                        "tertiary": "#201100",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-surface": "#1b1c1c",
+                        "surface": "#fcf9f8",
+                        "tertiary-fixed-dim": "#e8c08c",
+                        "on-primary-container": "#7a92b0",
+                        "on-primary-fixed-variant": "#314863",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#b0c9e8",
+                        "primary": "#00152a",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d1e4ff",
+                        "surface-variant": "#e5e2e1",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#00210a",
+                        "secondary-container": "#92f5a4",
+                        "on-surface-variant": "#43474d",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "on-tertiary-container": "#ad8a5a",
+                        "outline": "#74777e",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcd9d9",
+                        "outline-variant": "#c3c6ce",
+                        "on-tertiary-fixed": "#291800",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#49607c",
+                        "tertiary-fixed": "#ffddb4",
+                        "secondary": "#006d30",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#011d35"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    }
+                },
+            },
+        }
+        </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-header {
+            background: rgba(252, 249, 248, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+
+
+
+
+
+
+
+<body class="bg-surface font-body text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 glass-header">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<a href="home_screen.html" class="hover:opacity-80 transition-opacity active:scale-95 duration-200 transition-transform">
+<span class="material-symbols-outlined text-[#00152a]" data-icon="arrow_back">arrow_back</span>
+</a>
+<h1 class="text-2xl font-black tracking-tight text-[#00152a]">QueueGuide</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200 transition-transform">
+<span class="material-symbols-outlined text-[#00152a]" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<main class="max-w-screen-md mx-auto px-6 py-12">
+
+  <!-- Hero Section -->
+  <section class="mb-12">
+    <h2 class="text-[2.5rem] font-black text-primary leading-tight mb-4">Join the Queue</h2>
+    <p class="text-on-surface-variant text-lg leading-relaxed">Join now or schedule a time slot for later.</p>
+  </section>
+
+  <!-- Step 1: Join Mode Toggle -->
+  <section class="mb-10">
+    <div class="grid grid-cols-2 gap-4">
+      <button id="mode-now" onclick="setMode('now')"
+        class="py-5 px-6 rounded-2xl font-black text-lg border-2 border-[#006d30] bg-secondary-container/30 text-primary transition-all hover:scale-[1.02] active:scale-95">
+        🟢 Join Now
+      </button>
+      <button id="mode-schedule" onclick="setMode('schedule')"
+        class="py-5 px-6 rounded-2xl font-black text-lg border-2 border-outline-variant bg-surface-container-low text-primary transition-all hover:scale-[1.02] active:scale-95">
+        🕐 Schedule Time
+      </button>
+    </div>
+  </section>
+
+  <!-- Step 2a: Counter selection (Join Now mode) -->
+  <section id="section-counters" class="mb-10">
+    <h3 class="text-xl font-black text-primary mb-4">Select Counter</h3>
+    <div id="counter-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+  </section>
+
+  <!-- Step 2b: Time picker (Schedule mode) — hidden by default -->
+  <section id="section-schedule" class="mb-10 hidden">
+    <h3 class="text-xl font-black text-primary mb-4">Choose Your Time</h3>
+    <div class="bg-surface-variant rounded-xl p-2 focus-within:ring-2 ring-primary transition-all mb-4">
+      <input id="schedule-time" type="time"
+        class="w-full bg-transparent border-none focus:ring-0 text-xl font-medium py-4 px-4 text-primary">
+    </div>
+    <button onclick="checkSlot()"
+      class="w-full bg-primary text-on-primary py-5 rounded-2xl font-black text-lg hover:scale-[1.02] active:scale-95 transition-all">
+      Check Availability
+    </button>
+
+    <!-- Slot result area -->
+    <div id="slot-result" class="mt-6 hidden"></div>
+  </section>
+
+  <!-- Step 3: User details -->
+  <section class="space-y-8 mb-12">
+    <div class="space-y-3">
+      <label class="block text-2xl font-black text-primary" for="name">Name</label>
+      <div class="bg-surface-variant rounded-xl p-2 focus-within:ring-2 ring-primary transition-all">
+        <input class="w-full bg-transparent border-none focus:ring-0 text-xl font-medium py-4 px-4 text-primary placeholder:text-on-surface-variant/40"
+          id="name" placeholder="Enter your full name" type="text">
+      </div>
+    </div>
+    <div class="space-y-3">
+      <label class="block text-2xl font-black text-primary" for="phone">Phone</label>
+      <div class="bg-surface-variant rounded-xl p-2 focus-within:ring-2 ring-primary transition-all">
+        <input class="w-full bg-transparent border-none focus:ring-0 text-xl font-medium py-4 px-4 text-primary placeholder:text-on-surface-variant/40"
+          id="phone" placeholder="+1 (555) 000-0000" type="tel">
+      </div>
+    </div>
+  </section>
+
+  <!-- Primary Action -->
+  <div class="flex flex-col items-center">
+    <button id="get-token-btn" type="button"
+      class="w-full bg-secondary hover:bg-on-secondary-container text-on-secondary py-8 px-12 rounded-full text-2xl font-black tracking-wide shadow-2xl hover:scale-[1.02] active:scale-90 transition-all duration-300 flex items-center justify-center gap-4">
+      Get Token
+      <span class="material-symbols-outlined text-3xl">confirmation_number</span>
+    </button>
+    <p class="mt-6 text-on-surface-variant font-medium">By joining, you agree to our service terms.</p>
+  </div>
+
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 grid grid-cols-2 items-center px-4 pb-8 pt-4 bg-[#00152a] rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,21,42,0.1)]">
+  <!-- Home (Inactive on this page) -->
+  <a id="home-nav-link" href="home_screen.html" class="flex flex-col items-center justify-center text-[#fcf9f8] opacity-60 px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90">
+    <span class="material-symbols-outlined mb-1">home</span>
+    <span class="font-['Lexend'] font-bold text-sm tracking-wide">Home</span>
+  </a>
+  <!-- Status (Active on this page) -->
+  <a id="status-nav-link" href="#" class="flex flex-col items-center justify-center bg-[#006d30] text-[#fcf9f8] rounded-2xl px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90">
+    <span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+    <span class="font-['Lexend'] font-bold text-sm tracking-wide">Status</span>
+  </a>
+</nav>
+<!-- Decorative Elements -->
+<div class="fixed top-20 right-[-10%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[120px] -z-10"></div>
+<div class="fixed bottom-0 left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[120px] -z-10"></div>
+<!-- Workflow Help Modal -->
+<div id="workflow-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6">
+    <!-- Backdrop -->
+    <div id="workflow-modal-backdrop" class="absolute inset-0 bg-[#00152a]/60 backdrop-blur-md opacity-0 transition-opacity duration-300"></div>
+    
+    <!-- Modal content container -->
+    <div id="workflow-modal-content" class="relative bg-surface rounded-[2.5rem] shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col translate-y-8 opacity-0 scale-95 transition-all duration-300 border border-surface-container-high z-10">
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-surface-container flex items-center justify-between bg-surface-container-lowest">
+            <div class="flex items-center gap-3 text-primary">
+                <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 1;">schema</span>
+                <h3 class="font-headline font-black text-2xl md:text-3xl tracking-tight">System Workflow</h3>
+            </div>
+            <button id="close-workflow-modal" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+                <span class="material-symbols-outlined text-primary text-2xl">close</span>
+            </button>
+        </div>
+        
+        <!-- Body (Scrollable) -->
+        <div class="p-8 overflow-y-auto space-y-8 max-h-[60vh]">
+            <p class="text-on-surface-variant font-medium text-lg leading-relaxed">
+                Our **Sensor-Based Hybrid Queue Management System** eliminates the need for camera tracking or physical queues. By combining digital ticketing with real-time physical counter presence detection, it guarantees fair, high-precision waiting calculations.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Column 1: Ticketing & Joining -->
+                <div class="space-y-6">
+                    <h4 class="text-secondary font-headline font-black text-xl tracking-tight flex items-center gap-2 border-b border-secondary/10 pb-2">
+                        <span class="material-symbols-outlined text-xl">confirmation_number</span>
+                        1. Joining & Ticketing
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <!-- Step 1 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">01</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">System Initialization</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Loads counter status, waiting queues, and historical average service times.</p>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">02</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Home Access</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Displays average wait times, active counters, and currently serving token to incoming visitors.</p>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">03</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Counter Selection</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Highlights the recommended counter with the shortest waiting time. Customer inputs name & phone.</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">04</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Token Generation</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Generates a unique digital ticket, saves the transaction, and returns ETA and position.</p>
+                            </div>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">05</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Virtual Queueing</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Allows remote waiting via QR codes or Web. Eliminates standing in physical lines.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 2: Sensor & Self-Learning -->
+                <div class="space-y-6">
+                    <h4 class="text-primary font-headline font-black text-xl tracking-tight flex items-center gap-2 border-b border-primary/10 pb-2">
+                        <span class="material-symbols-outlined text-xl">sensors</span>
+                        2. Sensor & Analytics
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <!-- Step 6 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">06</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">IR Sensor Detection</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">IR/Proximity sensor detects customer arrival at the desk and starts the service timer.</p>
+                            </div>
+                        </div>
+                        <!-- Step 7 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">07</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Service Completion</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Sensor detects customer departure, stopping the service timer and logging the duration.</p>
+                            </div>
+                        </div>
+                        <!-- Step 8 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">08</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Self-Learning Predictor</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Calculates and updates average counter service duration based on historical session times.</p>
+                            </div>
+                        </div>
+                        <!-- Step 9 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">09</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Predictive Wait Times</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Uses the updated moving average and remaining queue length to update customer wait predictions.</p>
+                            </div>
+                        </div>
+                        <!-- Step 10 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">10</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Staff Dashboard Calling</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Staff calls next customer, updating current serving token and live tracking screens.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps 11 & 12 Bottom Section -->
+            <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col md:flex-row gap-6 mt-4">
+                <div class="flex-1 flex gap-3">
+                    <span class="material-symbols-outlined text-secondary text-2xl flex-shrink-0 mt-0.5">check_circle</span>
+                    <div>
+                        <h5 class="font-bold text-primary text-base">11. Token Completion</h5>
+                        <p class="text-on-surface-variant text-sm mt-1">Queue count decreases, and new predictions are dynamically pushed to tracking screens.</p>
+                    </div>
+                </div>
+                <div class="flex-1 flex gap-3">
+                    <span class="material-symbols-outlined text-secondary text-2xl flex-shrink-0 mt-0.5">rocket_launch</span>
+                    <div>
+                        <h5 class="font-bold text-primary text-base">12. System Output</h5>
+                        <p class="text-on-surface-variant text-sm mt-1">Zero wait uncertainty, optimized counter distribution, and zero camera intrusion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const API = 'https://queue-management-system-backend.onrender.com';
+let selectedCounterId = null;
+let currentMode = 'now';          // 'now' or 'schedule'
+let scheduledSlot = null;         // holds the chosen slot object from /api/slots
+
+/* =========================
+   MODE TOGGLE
+========================= */
+function setMode(mode) {
+  currentMode = mode;
+  scheduledSlot = null;
+
+  const btnNow      = document.getElementById('mode-now');
+  const btnSchedule = document.getElementById('mode-schedule');
+  const secCounters = document.getElementById('section-counters');
+  const secSchedule = document.getElementById('section-schedule');
+  const slotResult  = document.getElementById('slot-result');
+
+  if (mode === 'now') {
+    btnNow.classList.add('border-[#006d30]', 'bg-secondary-container/30');
+    btnNow.classList.remove('border-outline-variant', 'bg-surface-container-low');
+    btnSchedule.classList.remove('border-[#006d30]', 'bg-secondary-container/30');
+    btnSchedule.classList.add('border-outline-variant', 'bg-surface-container-low');
+    secCounters.classList.remove('hidden');
+    secSchedule.classList.add('hidden');
+    slotResult.classList.add('hidden');
+    slotResult.innerHTML = '';
+  } else {
+    btnSchedule.classList.add('border-[#006d30]', 'bg-secondary-container/30');
+    btnSchedule.classList.remove('border-outline-variant', 'bg-surface-container-low');
+    btnNow.classList.remove('border-[#006d30]', 'bg-secondary-container/30');
+    btnNow.classList.add('border-outline-variant', 'bg-surface-container-low');
+    secSchedule.classList.remove('hidden');
+    secCounters.classList.add('hidden');
+  }
+}
+
+/* =========================
+   LOAD COUNTERS (Join Now)
+========================= */
+async function loadCounters() {
+  try {
+    const res = await fetch(`${API}/api/counters`);
+    const counters = await res.json();
+    const grid = document.getElementById('counter-grid');
+
+    if (!counters || counters.length === 0) {
+      grid.innerHTML = `<div class="col-span-2 text-center p-8 bg-red-100 rounded-xl">
+        <p class="text-red-700 font-bold">No counters available</p></div>`;
+      return;
+    }
+
+    const best = counters.reduce((a, b) => a.waitTime < b.waitTime ? a : b);
+    grid.innerHTML = counters.map(c => `
+      <button onclick="selectCounter('${c.id}')" id="counter-${c.id}"
+        class="border-2 p-8 rounded-2xl text-left transition-all hover:scale-[1.02]
+        ${c.id === best.id ? 'border-[#006d30] bg-secondary-container/30' : 'border-outline-variant bg-surface-container-low'}">
+        ${c.id === best.id ? '<span class="text-xs font-bold text-secondary">⚡ RECOMMENDED</span><br>' : ''}
+        <h3 class="text-xl font-bold text-primary mt-2">${c.name}</h3>
+        <p class="text-on-surface-variant mt-1">${c.queueLength} people waiting</p>
+        <p class="text-2xl font-black text-primary mt-4">~${c.waitTime} min</p>
+      </button>
+    `).join('');
+
+    // Auto-select recommended
+    selectedCounterId = best.id;
+
+  } catch (err) {
+    document.getElementById('counter-grid').innerHTML = `
+      <div class="col-span-2 text-center p-8 bg-red-100 rounded-xl">
+        <p class="text-red-700 font-bold">Backend server not running</p></div>`;
+  }
+}
+
+function selectCounter(id) {
+  selectedCounterId = id;
+  document.querySelectorAll('[id^=counter-]').forEach(el => {
+    el.classList.toggle('ring-4', el.id === `counter-${id}`);
+    el.classList.toggle('ring-[#006d30]', el.id === `counter-${id}`);
+  });
+}
+
+/* =========================
+   CHECK SLOT AVAILABILITY
+========================= */
+async function checkSlot() {
+  const timeVal = document.getElementById('schedule-time').value;
+  if (!timeVal) { alert('Please pick a time first.'); return; }
+
+  const slotResult = document.getElementById('slot-result');
+  slotResult.innerHTML = `<p class="text-on-surface-variant font-medium animate-pulse">Checking availability...</p>`;
+  slotResult.classList.remove('hidden');
+  scheduledSlot = null;
+
+  const today = new Date().toISOString().split('T')[0];
+
+  try {
+    const res = await fetch(`${API}/api/slots?time=${timeVal}&date=${today}`);
+    const data = await res.json();
+
+    if (res.status === 400 && data.error === 'too_soon') {
+      slotResult.innerHTML = `
+        <div class="bg-error-container text-on-error-container p-6 rounded-2xl">
+          <p class="font-black text-lg">⛔ Too Soon</p>
+          <p class="mt-1">Please book a slot at least 20 minutes in the future.</p>
+        </div>`;
+      return;
+    }
+
+    if (data.status === 'available') {
+      scheduledSlot = data.slot;
+      slotResult.innerHTML = buildSlotCard(data.slot, true, data.avgServiceMins);
+    } else {
+      // Show taken message + alternatives
+      let html = `
+        <div class="bg-error-container text-on-error-container p-6 rounded-2xl mb-6">
+          <p class="font-black text-lg">❌ ${timeVal} is already booked</p>
+          <p class="mt-1 text-sm">Token #${data.requested.token} at this time is taken. Here are nearby available slots:</p>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+          ${data.alternatives.map(slot => buildSlotCard(slot, false, data.avgServiceMins)).join('')}
+        </div>`;
+      slotResult.innerHTML = html;
+
+      // Attach click handlers to alternative slot cards
+      data.alternatives.forEach(slot => {
+        document.getElementById(`slot-${slot.token}`)
+          ?.addEventListener('click', () => selectSlot(slot, data.alternatives));
+      });
+    }
+
+  } catch (err) {
+    slotResult.innerHTML = `<div class="bg-error-container text-on-error-container p-6 rounded-2xl">
+      <p class="font-black">Backend not reachable</p></div>`;
+  }
+}
+
+function buildSlotCard(slot, isSelected, avgMins) {
+  return `
+    <div id="slot-${slot.token}"
+      class="cursor-pointer border-2 p-6 rounded-2xl transition-all hover:scale-[1.01]
+      ${isSelected ? 'border-[#006d30] bg-secondary-container/30' : 'border-outline-variant bg-surface-container-low'}">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-2xl font-black text-primary">🕐 ${slot.time}</p>
+          <p class="text-on-surface-variant mt-1">Token <span class="font-black text-primary">#${slot.token}</span> · ${slot.counterName}</p>
+          <p class="text-sm text-secondary font-bold mt-2">📍 Arrive by ${slot.arrivalTime} (5 mins early)</p>
+        </div>
+        ${isSelected
+          ? '<span class="bg-secondary text-on-secondary text-xs font-black px-3 py-1 rounded-full">SELECTED</span>'
+          : '<span class="bg-surface-container text-on-surface-variant text-xs font-bold px-3 py-1 rounded-full">TAP TO SELECT</span>'}
+      </div>
+      <p class="text-xs text-on-surface-variant mt-3">Avg service time: ~${avgMins} min/person</p>
+    </div>`;
+}
+
+function selectSlot(slot, allSlots) {
+  scheduledSlot = slot;
+  // Visually update all cards
+  allSlots.forEach(s => {
+    const card = document.getElementById(`slot-${s.token}`);
+    if (!card) return;
+    if (s.token === slot.token) {
+      card.classList.add('border-[#006d30]', 'bg-secondary-container/30');
+      card.classList.remove('border-outline-variant', 'bg-surface-container-low');
+      card.querySelector('span:last-child').textContent = 'SELECTED';
+      card.querySelector('span:last-child').className = 'bg-secondary text-on-secondary text-xs font-black px-3 py-1 rounded-full';
+    } else {
+      card.classList.remove('border-[#006d30]', 'bg-secondary-container/30');
+      card.classList.add('border-outline-variant', 'bg-surface-container-low');
+      card.querySelector('span:last-child').textContent = 'TAP TO SELECT';
+      card.querySelector('span:last-child').className = 'bg-surface-container text-on-surface-variant text-xs font-bold px-3 py-1 rounded-full';
+    }
+  });
+}
+
+/* =========================
+   JOIN QUEUE
+========================= */
+async function joinQueue() {
+  const name  = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!name) { alert('Please enter your name.'); return; }
+
+  try {
+    let data;
+
+    if (currentMode === 'now') {
+      // Original instant join
+      if (!selectedCounterId) { alert('Please select a counter.'); return; }
+      const res = await fetch(`${API}/api/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ counterId: selectedCounterId, name, phone })
+      });
+      data = await res.json();
+      if (!res.ok) { alert(data.error || 'Could not join queue'); return; }
+
+    } else {
+      // Scheduled join
+      if (!scheduledSlot) { alert('Please check availability and select a time slot first.'); return; }
+      const res = await fetch(`${API}/api/join-scheduled`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, phone,
+          token: scheduledSlot.token,
+          counterId: scheduledSlot.counter
+        })
+      });
+      data = await res.json();
+      if (res.status === 409) {
+        alert('This slot was just taken by someone else! Please check availability again.');
+        scheduledSlot = null;
+        document.getElementById('slot-result').innerHTML = '';
+        return;
+      }
+      if (!res.ok) { alert(data.error || 'Could not join queue'); return; }
+    }
+
+    // Save to localStorage and redirect
+    localStorage.setItem('queue_token', data.token);
+    localStorage.setItem('queue_name', name);
+    localStorage.setItem('queue_counter', data.counter);
+    localStorage.setItem('queue_position', data.position);
+    localStorage.setItem('queue_waittime', data.waitTime);
+    if (scheduledSlot) {
+      localStorage.setItem('queue_scheduled_time', scheduledSlot.time);
+      localStorage.setItem('queue_arrival_time', scheduledSlot.arrivalTime);
+    }
+
+    window.location.href = 'token_display_screen.html';
+
+  } catch (err) {
+    console.error('Join queue failed:', err);
+    alert('Could not connect to backend server.');
+  }
+}
+
+/* =========================
+   WORKFLOW MODAL
+========================= */
+const helpBtn        = document.querySelector('header button');
+const modal          = document.getElementById('workflow-modal');
+const modalBackdrop  = document.getElementById('workflow-modal-backdrop');
+const modalContent   = document.getElementById('workflow-modal-content');
+const closeModalBtn  = document.getElementById('close-workflow-modal');
+
+function openWorkflowModal() {
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modalBackdrop.classList.remove('opacity-0');
+    modalContent.classList.remove('opacity-0', 'translate-y-8', 'scale-95');
+  }, 10);
+}
+function closeWorkflowModal() {
+  modalBackdrop.classList.add('opacity-0');
+  modalContent.classList.add('opacity-0', 'translate-y-8', 'scale-95');
+  setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+helpBtn?.addEventListener('click', openWorkflowModal);
+closeModalBtn?.addEventListener('click', closeWorkflowModal);
+modalBackdrop?.addEventListener('click', closeWorkflowModal);
+
+document.getElementById('get-token-btn')?.addEventListener('click', joinQueue);
+
+/* =========================
+   INIT
+========================= */
+loadCounters();
+setMode('now');
+</script>
+</body></html>
