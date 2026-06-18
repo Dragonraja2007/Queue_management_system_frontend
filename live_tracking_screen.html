@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>QueueGuide - Live Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-bright": "#fcf9f8",
+          "primary-container": "#102a43",
+          "on-secondary-container": "#007233",
+          "inverse-primary": "#b0c9e8",
+          "secondary-fixed-dim": "#79db8d",
+          "on-tertiary-fixed-variant": "#5d4119",
+          "secondary-fixed": "#95f8a7",
+          "tertiary-container": "#3b2400",
+          "background": "#fcf9f8",
+          "surface-container-high": "#eae7e7",
+          "surface-container": "#f0eded",
+          "on-background": "#1b1c1c",
+          "on-secondary-fixed-variant": "#005323",
+          "inverse-surface": "#303030",
+          "tertiary": "#201100",
+          "inverse-on-surface": "#f3f0ef",
+          "on-surface": "#1b1c1c",
+          "surface": "#fcf9f8",
+          "tertiary-fixed-dim": "#e8c08c",
+          "on-primary-container": "#7a92b0",
+          "on-primary-fixed-variant": "#314863",
+          "error-container": "#ffdad6",
+          "primary-fixed-dim": "#b0c9e8",
+          "primary": "#00152a",
+          "error": "#ba1a1a",
+          "on-secondary": "#ffffff",
+          "primary-fixed": "#d1e4ff",
+          "surface-variant": "#e5e2e1",
+          "on-error-container": "#93000a",
+          "on-secondary-fixed": "#00210a",
+          "secondary-container": "#92f5a4",
+          "on-surface-variant": "#43474d",
+          "on-error": "#ffffff",
+          "surface-container-low": "#f6f3f2",
+          "on-tertiary-container": "#ad8a5a",
+          "outline": "#74777e",
+          "on-primary": "#ffffff",
+          "surface-dim": "#dcd9d9",
+          "outline-variant": "#c3c6ce",
+          "on-tertiary-fixed": "#291800",
+          "surface-container-lowest": "#ffffff",
+          "surface-tint": "#49607c",
+          "tertiary-fixed": "#ffddb4",
+          "secondary": "#006d30",
+          "surface-container-highest": "#e5e2e1",
+          "on-tertiary": "#ffffff",
+          "on-primary-fixed": "#011d35"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "2xl": "1rem",
+          "3xl": "1.5rem",
+          "full": "9999px"
+        },
+        "fontFamily": {
+          "headline": ["Lexend"],
+          "body": ["Lexend"],
+          "label": ["Lexend"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Lexend', sans-serif; }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+</style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+
+<!-- TopAppBar -->
+<header class="bg-[#fcf9f8] dark:bg-[#00152a] flex justify-between items-center w-full px-6 py-4 max-w-screen-xl mx-auto fixed top-0 left-0 right-0 z-50">
+  <div class="flex items-center gap-4">
+    <a href="index.html" class="text-[#00152a] dark:text-[#fcf9f8] hover:opacity-80 transition-opacity active:scale-95 duration-200">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1 class="text-2xl font-black tracking-tight text-[#00152a] dark:text-[#fcf9f8]">QueueGuide</h1>
+  </div>
+  <div class="flex items-center gap-4">
+    <span id="help-btn" class="material-symbols-outlined text-[#00152a] dark:text-[#fcf9f8] cursor-pointer hover:opacity-80 transition-opacity">help_outline</span>
+  </div>
+</header>
+
+<main class="flex-1 mt-20 mb-32 px-6 max-w-screen-xl mx-auto w-full flex flex-col items-center justify-center">
+
+  <!-- Live Status Hero -->
+  <section class="w-full text-center space-y-8 py-12">
+    <div class="space-y-2">
+      <p class="text-on-surface-variant font-medium tracking-widest uppercase text-sm">CURRENTLY CALLING</p>
+      <div class="relative inline-block">
+        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full border-[12px] border-surface-container-highest flex items-center justify-center relative">
+          <svg class="absolute inset-0 w-full h-full -rotate-90">
+            <circle class="text-secondary opacity-20" cx="50%" cy="50%" fill="none" r="48%" stroke="currentColor" stroke-dasharray="100 100" stroke-width="12"></circle>
+            <circle class="text-secondary" cx="50%" cy="50%" fill="none" r="48%" stroke="currentColor" stroke-dasharray="80 100" stroke-width="12"></circle>
+          </svg>
+          <div class="flex flex-col items-center">
+            <span class="text-[6rem] md:text-[8rem] font-black leading-none text-primary" id="now-serving-display">—</span>
+            <span class="font-bold text-primary opacity-60">Now Serving</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your Token Card -->
+    <div class="bg-primary text-on-primary p-10 rounded-3xl w-full max-w-md mx-auto shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-4 opacity-10">
+        <span class="material-symbols-outlined text-8xl">confirmation_number</span>
+      </div>
+      <div class="relative z-10 flex flex-col items-center gap-2">
+        <p class="text-primary-fixed-dim font-bold tracking-wide">YOUR TOKEN</p>
+        <h2 class="text-6xl md:text-7xl font-black" id="my-token-display">—</h2>
+        <div id="status-badge" class="mt-4 bg-secondary text-on-secondary px-6 py-2 rounded-full font-bold text-lg inline-flex items-center gap-2">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person_play</span>
+          <span id="status-badge-text">Loading...</span>
+        </div>
+        <button id="leave-queue-btn"
+          class="mt-6 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-2xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg">
+          Leave Queue
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Info Cards -->
+  <div class="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+    <div class="bg-surface-container-low p-8 rounded-3xl flex flex-col justify-between">
+      <div class="space-y-4">
+        <div class="w-12 h-12 bg-primary-container text-white rounded-2xl flex items-center justify-center">
+          <span class="material-symbols-outlined">groups</span>
+        </div>
+        <h3 class="text-2xl font-bold text-primary" id="people-ahead-display">Checking...</h3>
+        <p class="text-on-surface-variant leading-relaxed">People currently ahead of you in the queue.</p>
+      </div>
+    </div>
+    <div class="bg-surface-container-low p-8 rounded-3xl flex flex-col justify-between">
+      <div class="space-y-4">
+        <div class="w-12 h-12 bg-on-secondary-container text-white rounded-2xl flex items-center justify-center">
+          <span class="material-symbols-outlined">timer</span>
+        </div>
+        <h3 class="text-2xl font-bold text-primary" id="wait-time-display">Checking...</h3>
+        <p class="text-on-surface-variant leading-relaxed">Estimated time until your turn. Please stay nearby.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Venue Image Card -->
+  <div class="w-full max-w-2xl mt-6">
+    <div class="relative rounded-3xl overflow-hidden h-64 group">
+      <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD76l3joxp4JiEiD8LfRf6oAVrUjPqo99UsBbUvXV4w6X2jqSf8xnOVT2HcUV9t60bAJ4mQWrELTKwXay0xCEqKG2bDB3nLpKlPudZ3_JU9pHweD0XjywIIJhGjPJ-l5ebXKuhmAUWIMOb-sB92v3vZ6IlMSlhgk4M8hwGjh9lVp8VDCY5-LVDtPrMyurxlq9AbLHeiTTfJgLArgK1nfKcu5XpKhsjl46rZ8-KsVSb4ehv3TvEOUkYTYn2v2IrTI-9qFubUvQ8u9BSw"
+        alt="Service center">
+      <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-8">
+        <div class="flex items-center gap-3 text-white/80 mb-1">
+          <span class="material-symbols-outlined text-sm">location_on</span>
+          <span class="text-sm font-bold tracking-widest uppercase">Main Service Center</span>
+        </div>
+        <p class="text-2xl font-bold text-white">Desk is calling tokens</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 grid grid-cols-2 items-center px-4 pb-8 pt-4 bg-[#00152a] dark:bg-[#000a14] rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,21,42,0.1)]">
+  <!-- Home (Inactive) -->
+  <a href="index.html" class="flex flex-col items-center justify-center text-[#fcf9f8] opacity-60 px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90">
+    <span class="material-symbols-outlined mb-1">home</span>
+    <span class="font-['Lexend'] font-bold text-sm tracking-wide">Home</span>
+  </a>
+  <!-- Status (Active) -->
+  <a href="live_tracking_screen.html" class="flex flex-col items-center justify-center bg-[#006d30] text-[#fcf9f8] rounded-2xl px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90">
+    <span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+    <span class="font-['Lexend'] font-bold text-sm tracking-wide">Status</span>
+  </a>
+</nav>
+
+<!-- Workflow Help Modal -->
+<div id="workflow-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6">
+  <div id="workflow-modal-backdrop" class="absolute inset-0 bg-[#00152a]/60 backdrop-blur-md opacity-0 transition-opacity duration-300"></div>
+  <div id="workflow-modal-content" class="relative bg-surface rounded-[2.5rem] shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col translate-y-8 opacity-0 scale-95 transition-all duration-300 border border-surface-container-high z-10">
+    <div class="px-8 py-6 border-b border-surface-container flex items-center justify-between bg-surface-container-lowest">
+      <div class="flex items-center gap-3 text-primary">
+        <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 1;">schema</span>
+        <h3 class="font-headline font-black text-2xl md:text-3xl tracking-tight">System Workflow</h3>
+      </div>
+      <button id="close-workflow-modal" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+        <span class="material-symbols-outlined text-primary text-2xl">close</span>
+      </button>
+    </div>
+    <div class="p-8 overflow-y-auto space-y-8 max-h-[60vh]">
+      <p class="text-on-surface-variant font-medium text-lg leading-relaxed">
+        Our Sensor-Based Hybrid Queue Management System eliminates the need for camera tracking or physical queues. By combining digital ticketing with real-time physical counter presence detection, it guarantees fair, high-precision waiting calculations.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://queue-management-system-backend.onrender.com';
+
+// ================================================================
+//  Poll server every 8 seconds for live updates
+// ================================================================
+async function pollStatus() {
+  const token = localStorage.getItem('queue_token');
+  if (!token) {
+    window.location.href = 'join_queue_screen.html';
+    return;
+  }
+
+  // Always show user's own token immediately
+  document.getElementById('my-token-display').textContent = token;
+
+  try {
+    const res  = await fetch(`${API}/api/status/${token}`);
+    const d    = await res.json();
+
+    if (res.status === 404) {
+      // Token no longer in system — show what's currently serving
+      document.getElementById('now-serving-display').textContent =
+        d.currentServing ?? '✓';
+      document.getElementById('people-ahead-display').textContent = 'Service complete';
+      document.getElementById('wait-time-display').textContent    = 'You have been served!';
+      document.getElementById('status-badge-text').textContent    = 'Done!';
+      return;
+    }
+
+    // Always update the big Now Serving number
+    document.getElementById('now-serving-display').textContent =
+      d.currentServing ?? '—';
+
+    if (d.status === 'serving') {
+      // This person's token is currently at the counter
+      document.getElementById('people-ahead-display').textContent = "It's your turn!";
+      document.getElementById('wait-time-display').textContent    = 'Please go to the counter!';
+      document.getElementById('status-badge-text').textContent    = 'Your turn now!';
+
+    } else {
+      // Still waiting in queue
+      const avgMin = Math.round(
+        parseInt(localStorage.getItem('queue_avg_service_time') || '240', 10) / 60
+      );
+
+      if (d.peopleAhead === 0) {
+        document.getElementById('people-ahead-display').textContent = 'Next in line!';
+        document.getElementById('wait-time-display').textContent    = 'Almost your turn!';
+        document.getElementById('status-badge-text').textContent    = 'Almost there!';
+      } else {
+        document.getElementById('people-ahead-display').textContent =
+          `${d.peopleAhead} people ahead`;
+        document.getElementById('wait-time-display').textContent =
+          `~${d.peopleAhead * avgMin} minutes`;
+        document.getElementById('status-badge-text').textContent = 'Hang tight!';
+      }
+    }
+
+  } catch (e) {
+    console.error('Poll failed:', e);
+  }
+}
+
+// ================================================================
+//  Leave Queue
+// ================================================================
+document.getElementById('leave-queue-btn')
+  ?.addEventListener('click', async () => {
+    const token = localStorage.getItem('queue_token');
+    if (!token) return;
+
+    const confirmLeave = confirm('Are you sure you want to leave the queue?');
+    if (!confirmLeave) return;
+
+    try {
+      const res  = await fetch(`${API}/api/leave`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Could not leave queue');
+        return;
+      }
+
+      localStorage.removeItem('queue_token');
+      localStorage.removeItem('queue_counter');
+      localStorage.removeItem('queue_position');
+      localStorage.removeItem('queue_waittime');
+      localStorage.removeItem('queue_scheduled_time');
+      localStorage.removeItem('queue_arrival_time');
+      localStorage.removeItem('queue_avg_service_time');
+
+      alert('You have left the queue.');
+      window.location.href = 'index.html';
+
+    } catch (err) {
+      console.error('Leave queue failed:', err);
+      alert('Backend connection failed.');
+    }
+  });
+
+// ================================================================
+//  Help Modal
+// ================================================================
+const modal    = document.getElementById('workflow-modal');
+const backdrop = document.getElementById('workflow-modal-backdrop');
+const content  = document.getElementById('workflow-modal-content');
+const closeBtn = document.getElementById('close-workflow-modal');
+const helpBtn  = document.getElementById('help-btn');
+
+function showModal() {
+  modal.classList.remove('hidden');
+  void modal.offsetWidth;
+  backdrop.classList.remove('opacity-0');
+  backdrop.classList.add('opacity-100');
+  content.classList.remove('translate-y-8', 'opacity-0', 'scale-95');
+  content.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+  document.body.classList.add('overflow-hidden');
+}
+
+function hideModal() {
+  backdrop.classList.remove('opacity-100');
+  backdrop.classList.add('opacity-0');
+  content.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+  content.classList.add('translate-y-8', 'opacity-0', 'scale-95');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }, 300);
+}
+
+helpBtn?.addEventListener('click', showModal);
+closeBtn?.addEventListener('click', hideModal);
+backdrop?.addEventListener('click', hideModal);
+
+// ================================================================
+//  Start polling
+// ================================================================
+pollStatus();
+setInterval(pollStatus, 8000);
+</script>
+
+</body>
+</html>

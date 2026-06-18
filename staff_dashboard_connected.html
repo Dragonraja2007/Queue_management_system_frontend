@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f6f3f2",
+                    "on-primary-container": "#7a92b0",
+                    "on-secondary-fixed-variant": "#005323",
+                    "surface-container": "#f0eded",
+                    "secondary": "#006d30",
+                    "inverse-on-surface": "#f3f0ef",
+                    "primary-fixed": "#d1e4ff",
+                    "secondary-fixed-dim": "#79db8d",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#007233",
+                    "outline-variant": "#c3c6ce",
+                    "outline": "#74777e",
+                    "surface-container-highest": "#e5e2e1",
+                    "secondary-fixed": "#95f8a7",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b0c9e8",
+                    "primary-fixed-dim": "#b0c9e8",
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-container": "#ad8a5a",
+                    "tertiary-fixed": "#ffddb4",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1b1c1c",
+                    "surface-container-high": "#eae7e7",
+                    "on-primary": "#ffffff",
+                    "surface": "#fcf9f8",
+                    "secondary-container": "#92f5a4",
+                    "on-primary-fixed": "#011d35",
+                    "on-primary-fixed-variant": "#314863",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#201100",
+                    "surface-dim": "#dcd9d9",
+                    "on-secondary-fixed": "#00210a",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1b1c1c",
+                    "surface-variant": "#e5e2e1",
+                    "tertiary-container": "#3b2400",
+                    "error": "#ba1a1a",
+                    "background": "#fcf9f8",
+                    "on-tertiary-fixed": "#291800",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#49607c",
+                    "primary": "#00152a"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "display": ["Lexend"],
+                    "body": ["Lexend"],
+                    "label": ["Lexend"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(252, 249, 248, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .call-next-pulse:active {
+            transform: scale(0.95);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .token-update-animation {
+            animation: token-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes token-pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 glass-header">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<a href="index.html" class="material-symbols-outlined text-[#00152a] hover:opacity-80 transition-opacity p-2 rounded-full hover:bg-surface-container-low" data-icon="arrow_back">arrow_back</a>
+<h1 class="text-2xl font-black tracking-tight text-[#00152a] font-headline">QueueGuide</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold text-[#006d30] px-3 py-1 bg-secondary-container rounded-full">STAFF PORTAL</span>
+<button class="material-symbols-outlined text-[#00152a] hover:opacity-80 transition-opacity" data-icon="help_outline">help_outline</button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-screen-xl mx-auto px-6 pt-24 pb-32">
+<!-- Hero Section: Action & Sensor Simulation -->
+<section class="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Call Next Action -->
+<div class="bg-surface-container-low rounded-[2.5rem] p-8 md:p-12 flex flex-col items-center justify-between text-center shadow-sm">
+<div class="w-full flex flex-col items-center">
+<span class="text-on-surface-variant font-bold tracking-widest uppercase text-xs mb-4">Counter 04 • Active Session</span>
+<h2 class="text-primary font-headline font-bold text-3xl md:text-4xl mb-8">Ready for the next visitor?</h2>
+<!-- Primary Call Next Button -->
+<div class="mb-6 w-full">
+  <label class="block text-sm font-bold text-on-surface-variant mb-2">
+    Active Counter
+  </label>
+
+<select id="active-counter-select" class="w-full p-4 rounded-2xl border border-outline bg-surface-container-low">
+  <option value="1">Counter 1</option>
+  <option value="2">Counter 2</option>
+</select>
+</div>
+<button class="group relative bg-secondary text-on-secondary rounded-full px-12 py-8 flex flex-col items-center justify-center shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed" id="call-next-btn">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary to-on-secondary-container opacity-20"></div>
+<span class="material-symbols-outlined text-5xl mb-2 relative z-10" id="call-icon" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-headline font-extrabold text-2xl tracking-tight relative z-10" id="call-text">Call Next</span>
+<span class="hidden absolute inset-0 flex items-center justify-center bg-secondary z-20" id="loading-spinner">
+<svg class="animate-spin h-8 w-8 text-white" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+</span>
+</button>
+</div>
+<div class="mt-8 flex gap-4 justify-center w-full">
+<div class="bg-surface-container-highest px-6 py-3 rounded-2xl min-w-[120px]">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase">Current Serving</p>
+<p class="text-2xl font-black text-primary font-display" id="current-serving-token">--</p></div>
+<div class="bg-surface-container-highest px-6 py-3 rounded-2xl min-w-[120px]">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase">In Waiting</p>
+<p class="text-2xl font-black text-secondary font-display" id="waiting-count">0</p></div>
+</div>
+</div>
+
+<!-- IR Proximity Sensor Simulator & Analytics -->
+<div class="bg-surface-container-low rounded-[2.5rem] p-8 flex flex-col justify-between shadow-sm border border-surface-container-high">
+    <div class="w-full">
+        <div class="flex items-center justify-between mb-6">
+            <span class="text-on-surface-variant font-bold tracking-widest uppercase text-xs">Simulated Hardware</span>
+            <div id="sensor-badge" class="flex items-center gap-1.5 px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-xs font-bold transition-all">
+                <span class="w-2.5 h-2.5 bg-outline rounded-full" id="sensor-dot"></span>
+                <span id="sensor-status-text">Sensor Idle</span>
+            </div>
+        </div>
+        
+        <h3 class="text-primary font-headline font-bold text-2xl mb-2 text-left">IR Proximity Sensor</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-6 text-left">
+            Simulate a physical customer arriving or departing from Counter 04. The sensor starts/stops the service timer automatically to train our prediction models.
+        </p>
+
+        <!-- Sensor Simulation Buttons -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <button id="sensor-detect-btn" class="flex items-center justify-center gap-2 bg-secondary text-on-secondary hover:bg-on-secondary-container py-4 px-6 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95">
+                <span class="material-symbols-outlined">person_pin</span>
+                <span>Arrive (Detect)</span>
+            </button>
+            <button id="sensor-clear-btn" disabled class="flex items-center justify-center gap-2 bg-surface-container-highest text-primary/40 py-4 px-6 rounded-2xl font-bold transition-all cursor-not-allowed opacity-55">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Depart (Clear)</span>
+            </button>
+        </div>
+
+        <!-- Timer Display -->
+        <div class="bg-surface-container-highest rounded-2xl p-6 mb-6 flex justify-between items-center">
+            <div class="text-left">
+                <span class="block text-[0.7rem] font-bold text-on-surface-variant uppercase mb-1">Active Service Timer</span>
+                <span class="text-3xl font-black font-display text-primary transition-all" id="service-timer">00:00</span>
+            </div>
+            <div class="text-right">
+                <span class="block text-[0.7rem] font-bold text-on-surface-variant uppercase mb-1">Moving Avg Time</span>
+                <span class="text-xl font-bold text-secondary font-display" id="avg-time-display">4.0 min</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Log -->
+    <div class="w-full">
+        <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3 text-left">Self-Learning Duration Logs</h4>
+        <div class="max-h-[140px] overflow-y-auto space-y-2 pr-1 custom-scrollbar text-left text-sm" id="sensor-logs">
+            <div class="text-on-surface-variant/60 italic text-xs py-2">No hardware sessions recorded yet. Trigger the sensor to begin.</div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Active Counters Grid -->
+<section>
+
+<div class="flex items-center justify-between mb-6">
+
+<h3 class="font-headline font-bold text-xl text-primary">
+    Live Counter Status
+</h3>
+
+<span class="text-sm font-medium text-on-surface-variant flex items-center gap-2">
+
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+
+Live Updates
+
+</span>
+
+</div>
+
+<!-- DYNAMIC GRID -->
+<div
+    id="live-counter-grid"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+
+</section>
+
+<!-- Illustration / Mood Decor -->
+<section class="mt-16 overflow-hidden rounded-[3rem] relative h-64">
+<img class="w-full h-full object-cover grayscale brightness-50" data-alt="A professional, high-end office lobby with large windows and minimalist architecture. The environment is clean and modern, featuring deep navy and charcoal blue accents against warm paper-toned walls. Soft natural light flows through the space, creating a serene and authoritative atmosphere that reflects a premium corporate concierge experience. The composition is wide and elegant, emphasizing space and clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL8N1L-wrN_EhwrpOk7kfvwAZxdTZwZZTDZqGiRuBwQfsXoRAKOzJ-fshSjafPhVSLs0DngWSu78BiE2ODZx0KVWrzug_ZF-0yzNvCYVGKCsJBdq2JP1wTrskabPBd0xi2NU48LMFHvtgj-nCXjdMoZG-obu8l9aSekHxME8XckX4SowicIBuIXoYRDYYhOCgC_rlWHCunjRD63SY5_1RVsuzg1AAFMQwN187sl4Ic25fKIwH0wv7dhrJ6i6YpwBW7X-P0Hbrrs-tR"/>
+<div class="absolute inset-0 flex items-center px-12">
+<div class="max-w-md">
+<h3 class="text-white font-headline font-bold text-2xl mb-2">Service Excellence</h3>
+<p class="text-white/80 text-sm leading-relaxed">Maintaining a steady flow ensures customer satisfaction and operational efficiency. Your performance today is 12% above average.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#00152a] rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,21,42,0.1)]">
+<a id="status-nav-link" class="flex flex-col items-center justify-center bg-[#006d30] text-[#fcf9f8] rounded-2xl px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90" href="live_tracking_screen.html">
+<span class="material-symbols-outlined mb-1" data-icon="confirmation_number" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span class="font-['Lexend'] font-bold text-sm tracking-wide">Status</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#fcf9f8] opacity-60 px-6 py-3 hover:scale-105 transition-all duration-300 active:scale-90" href="index.html">
+<span class="material-symbols-outlined mb-1" data-icon="history">home</span>
+<span class="font-['Lexend'] font-bold text-sm tracking-wide">Home</span>
+</a>
+</nav>
+<script>
+        const callNextBtn = document.getElementById('call-next-btn');
+        const spinner = document.getElementById('loading-spinner');
+        const currentTokenDisplay = document.getElementById('current-serving-token');
+        const waitingCountDisplay = document.getElementById('waiting-count');
+        const statusNavLink = document.getElementById('status-nav-link');
+
+        if (statusNavLink) {
+            const activeToken = localStorage.getItem('queue_token');
+            if (activeToken) {
+                statusNavLink.href = 'live_tracking_screen.html';
+            } else {
+                statusNavLink.href = 'join_queue_screen.html';
+            }
+        }
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    try {
+
+        const res = await fetch(
+            'https://queue-management-system-backend.onrender.com/api/counters'
+        );
+
+        const counters = await res.json();
+
+        // get currently selected counter
+        const activeCounter =
+            document.getElementById('active-counter-select')?.value || '1';
+
+        const counter = counters.find(
+            c => c.id === activeCounter
+        );
+
+        if (counter) {
+
+            currentTokenDisplay.innerText =
+                counter.currentToken || '--';
+
+            waitingCountDisplay.innerText =
+                counter.queueLength || 0;
+        }
+
+    } catch (err) {
+
+        console.error('Failed loading counters:', err);
+    }
+});
+
+/* =========================
+   LIVE COUNTER STATUS
+========================= */
+
+async function loadLiveCounters() {
+
+    try {
+
+        const res = await fetch(
+            'https://queue-management-system-backend.onrender.com/api/counters'
+        );
+
+        const counters = await res.json();
+
+        const grid =
+            document.getElementById(
+                'live-counter-grid'
+            );
+
+// update top cards too
+const activeCounter =
+    document.getElementById(
+        'active-counter-select'
+    )?.value || '1';
+
+const selectedCounter =
+    counters.find(
+        c => c.id === activeCounter
+    );
+
+if (selectedCounter) {
+
+    currentTokenDisplay.innerText =
+        selectedCounter.currentToken || '--';
+
+    waitingCountDisplay.innerText =
+        selectedCounter.queueLength || 0;
+}
+
+        grid.innerHTML = counters.map(counter => `
+
+            <div class="bg-surface-container-lowest
+                        p-6
+                        rounded-[2rem]
+                        flex flex-col
+                        shadow-sm
+                        border
+                        border-transparent
+                        hover:border-secondary-container
+                        transition-colors duration-300">
+
+                <div class="flex justify-between items-start mb-6">
+
+                    <div>
+
+                        <p class="text-xs font-bold
+                                  text-on-surface-variant mb-1">
+
+                            COUNTER ${counter.id}
+
+                        </p>
+
+                        <h4 class="text-lg font-bold text-primary">
+
+                            ${counter.name}
+
+                        </h4>
+
+                    </div>
+
+                    <span class="bg-secondary-container
+                                 text-on-secondary-container
+                                 px-3 py-1
+                                 rounded-full
+                                 text-[0.65rem]
+                                 font-black">
+
+                        ACTIVE
+
+                    </span>
+
+                </div>
+
+                <div class="flex items-center justify-between
+                            bg-surface-container-low
+                            p-4 rounded-2xl">
+
+                    <span class="text-on-surface-variant font-medium">
+
+                        Serving Token
+
+                    </span>
+
+                    <span class="text-2xl font-black
+                                 text-primary font-display">
+
+                        ${counter.currentToken || '--'}
+
+                    </span>
+
+                </div>
+
+                <div class="mt-4 text-sm font-bold text-secondary">
+
+                    Queue Length:
+                    ${counter.queueLength}
+
+                </div>
+
+            </div>
+
+        `).join('');
+
+    } catch (err) {
+
+        console.error(
+            'Live counter refresh failed:',
+            err
+        );
+    }
+}
+
+// initial load
+loadLiveCounters();
+
+// refresh every 3 sec
+setInterval(loadLiveCounters, 3000);       
+
+
+callNextBtn.addEventListener('click', async () => {
+    spinner.classList.remove('hidden');
+    callNextBtn.disabled = true;
+
+    // ← read the selected counter BEFORE the fetch
+    const activeCounter = document.getElementById('active-counter-select')?.value || '1';
+
+    try {
+        const response = await fetch('https://queue-management-system-backend.onrender.com/api/call-next', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ counterId: activeCounter })  // ← this was missing
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // use data.currentToken and data.remainingQueue (not data.nextToken)
+            updateTokenUI(data.currentToken, data.remainingQueue);
+        } else {
+            mockUpdate();
+        }
+    } catch (error) {
+        mockUpdate();
+    } finally {
+        setTimeout(() => {
+            spinner.classList.add('hidden');
+            callNextBtn.disabled = false;
+        }, 600);
+    }
+});
+
+
+        function updateTokenUI(currentToken, waitingCount) {
+    if (currentToken) {
+        currentTokenDisplay.classList.remove('token-update-animation');
+        void currentTokenDisplay.offsetWidth;
+        currentTokenDisplay.innerText = currentToken;      // ← was nextToken
+        currentTokenDisplay.classList.add('token-update-animation');
+        localStorage.setItem('queue_now_serving', currentToken);
+    }
+    if (waitingCount !== undefined) {
+        waitingCountDisplay.innerText = waitingCount;
+    }
+}
+
+
+        // Sensor Simulation States
+        let sensorTimer = null;
+        let sensorSeconds = 0;
+        let sensorSessionStart = null;
+        
+        const sensorDetectBtn = document.getElementById('sensor-detect-btn');
+        const sensorClearBtn = document.getElementById('sensor-clear-btn');
+        const serviceTimerEl = document.getElementById('service-timer');
+        const avgTimeDisplayEl = document.getElementById('avg-time-display');
+        const sensorLogsContainer = document.getElementById('sensor-logs');
+        const sensorBadge = document.getElementById('sensor-badge');
+        const sensorDot = document.getElementById('sensor-dot');
+        const sensorStatusText = document.getElementById('sensor-status-text');
+
+        // Initial load of average service time
+        function loadAverageServiceTime() {
+            const avgSec = parseFloat(localStorage.getItem('queue_avg_service_time') || '240');
+            const min = (avgSec / 60).toFixed(1);
+            avgTimeDisplayEl.innerText = `${min} min`;
+        }
+        loadAverageServiceTime();
+
+        // Start timer
+        sensorDetectBtn.addEventListener('click', () => {
+            sensorSessionStart = new Date();
+            sensorSeconds = 0;
+            serviceTimerEl.textContent = '00:00';
+            serviceTimerEl.classList.add('text-secondary', 'animate-pulse');
+
+            // Update simulator UI states
+            sensorDetectBtn.disabled = true;
+            sensorDetectBtn.className = "flex items-center justify-center gap-2 bg-surface-container-highest text-primary/40 py-4 px-6 rounded-2xl font-bold transition-all cursor-not-allowed opacity-55";
+            sensorClearBtn.disabled = false;
+            sensorClearBtn.className = "flex items-center justify-center gap-2 bg-[#ba1a1a] text-white hover:bg-red-700 py-4 px-6 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95";
+
+            // Update badge to active
+            sensorBadge.className = "flex items-center gap-1.5 px-3 py-1 bg-[#92f5a4] text-[#00210a] rounded-full text-xs font-bold animate-bounce";
+            sensorDot.className = "w-2.5 h-2.5 bg-[#006d30] rounded-full";
+            sensorStatusText.innerText = "Active Presence";
+
+            sensorTimer = setInterval(() => {
+                sensorSeconds++;
+                const mins = String(Math.floor(sensorSeconds / 60)).padStart(2, '0');
+                const secs = String(sensorSeconds % 60).padStart(2, '0');
+                serviceTimerEl.textContent = `${mins}:${secs}`;
+            }, 1000);
+        });
+
+        // Stop timer & calculate
+        sensorClearBtn.addEventListener('click', () => {
+            clearInterval(sensorTimer);
+            serviceTimerEl.classList.remove('text-secondary', 'animate-pulse');
+
+            const end = new Date();
+            const durationSec = Math.max(1, Math.round((end - sensorSessionStart) / 1000));
+            
+            // Add session to log history
+            logSession(durationSec);
+
+            // Recalculate average
+            updateAverageServiceTime(durationSec);
+
+            // Reset UI states
+            sensorDetectBtn.disabled = false;
+            sensorDetectBtn.className = "flex items-center justify-center gap-2 bg-secondary text-on-secondary hover:bg-on-secondary-container py-4 px-6 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95";
+            sensorClearBtn.disabled = true;
+            sensorClearBtn.className = "flex items-center justify-center gap-2 bg-surface-container-highest text-primary/40 py-4 px-6 rounded-2xl font-bold transition-all cursor-not-allowed opacity-55";
+            
+            // Reset badge
+            sensorBadge.className = "flex items-center gap-1.5 px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-xs font-bold transition-all";
+            sensorDot.className = "w-2.5 h-2.5 bg-outline rounded-full";
+            sensorStatusText.innerText = "Sensor Idle";
+        });
+
+        function logSession(durationSec) {
+            if (sensorLogsContainer.querySelector('.italic')) {
+                sensorLogsContainer.innerHTML = '';
+            }
+
+            const activeToken = currentTokenDisplay.innerText;
+            const logItem = document.createElement('div');
+            logItem.className = "flex justify-between items-center bg-surface-container-lowest p-3 rounded-xl border border-surface-container-high transition-all hover:translate-x-1";
+            logItem.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-[#006d30] rounded-full"></span>
+                    <span class="font-bold text-primary">Token ${activeToken}</span>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-medium">
+                    <span class="text-on-surface-variant">Duration: <strong>${durationSec}s</strong></span>
+                    <span class="text-secondary font-bold bg-[#92f5a4] px-2 py-0.5 rounded-full">Synced</span>
+                </div>
+            `;
+            sensorLogsContainer.insertBefore(logItem, sensorLogsContainer.firstChild);
+        }
+
+        function updateAverageServiceTime(newDurationSec) {
+            let history = JSON.parse(localStorage.getItem('queue_service_history') || '[]');
+            history.push(newDurationSec);
+            if (history.length > 10) history.shift();
+            localStorage.setItem('queue_service_history', JSON.stringify(history));
+
+            const sum = history.reduce((a, b) => a + b, 0);
+            const avgSec = sum / history.length;
+            localStorage.setItem('queue_avg_service_time', Math.round(avgSec));
+
+            const min = (avgSec / 60).toFixed(1);
+            avgTimeDisplayEl.innerText = `${min} min`;
+        }
+
+        // Help Modal Toggle Script
+        const modal = document.getElementById('workflow-modal');
+        const backdrop = document.getElementById('workflow-modal-backdrop');
+        const content = document.getElementById('workflow-modal-content');
+        const closeBtn = document.getElementById('close-workflow-modal');
+
+        const helpElements = document.querySelectorAll('span, button');
+        const actualOpenBtns = Array.from(helpElements).filter(el => 
+            el.textContent.trim() === 'help_outline' || 
+            el.getAttribute('data-icon') === 'help_outline'
+        );
+
+        function showModal() {
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-100');
+            content.classList.remove('translate-y-8', 'opacity-0', 'scale-95');
+            content.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function hideModal() {
+            backdrop.classList.remove('opacity-100');
+            backdrop.classList.add('opacity-0');
+            content.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+            content.classList.add('translate-y-8', 'opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        actualOpenBtns.forEach(btn => {
+            btn.style.cursor = 'pointer';
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal();
+            });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', hideModal);
+        if (backdrop) backdrop.addEventListener('click', hideModal);
+
+
+        async function refreshDashboard() {
+    try {
+        const res = await fetch('https://queue-management-system-backend.onrender.com/api/counters');
+        const counters = await res.json();
+        const activeCounter = document.getElementById('active-counter-select')?.value || '1';
+        const counter = counters.find(c => c.id === activeCounter);
+        if (counter) {
+            currentTokenDisplay.innerText = counter.currentToken ?? '--';
+            waitingCountDisplay.innerText = counter.queueLength ?? 0;
+        }
+    } catch (e) {
+        console.error('Dashboard refresh failed', e);
+    }
+}
+
+// refresh every 5 seconds so admin always sees the live token
+setInterval(refreshDashboard, 5000);
+    </script>
+
+<!-- Workflow Help Modal -->
+<div id="workflow-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6">
+    <!-- Backdrop -->
+    <div id="workflow-modal-backdrop" class="absolute inset-0 bg-[#00152a]/60 backdrop-blur-md opacity-0 transition-opacity duration-300"></div>
+    
+    <!-- Modal content container -->
+    <div id="workflow-modal-content" class="relative bg-surface rounded-[2.5rem] shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col translate-y-8 opacity-0 scale-95 transition-all duration-300 border border-surface-container-high z-10">
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-surface-container flex items-center justify-between bg-surface-container-lowest">
+            <div class="flex items-center gap-3 text-primary">
+                <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 1;">schema</span>
+                <h3 class="font-headline font-black text-2xl md:text-3xl tracking-tight">System Workflow</h3>
+            </div>
+            <button id="close-workflow-modal" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+                <span class="material-symbols-outlined text-primary text-2xl">close</span>
+            </button>
+        </div>
+        
+        <!-- Body (Scrollable) -->
+        <div class="p-8 overflow-y-auto space-y-8 max-h-[60vh]">
+            <p class="text-on-surface-variant font-medium text-lg leading-relaxed">
+                Our **Sensor-Based Hybrid Queue Management System** eliminates the need for camera tracking or physical queues. By combining digital ticketing with real-time physical counter presence detection, it guarantees fair, high-precision waiting calculations.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Column 1: Ticketing & Joining -->
+                <div class="space-y-6">
+                    <h4 class="text-secondary font-headline font-black text-xl tracking-tight flex items-center gap-2 border-b border-secondary/10 pb-2">
+                        <span class="material-symbols-outlined text-xl">confirmation_number</span>
+                        1. Joining & Ticketing
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <!-- Step 1 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">01</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">System Initialization</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Loads counter status, waiting queues, and historical average service times.</p>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">02</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Home Access</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Displays average wait times, active counters, and currently serving token to incoming visitors.</p>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">03</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Counter Selection</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Highlights the recommended counter with the shortest waiting time. Customer inputs name & phone.</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">04</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Token Generation</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Generates a unique digital ticket, saves the transaction, and returns ETA and position.</p>
+                            </div>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold font-display text-sm mt-0.5">05</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Virtual Queueing</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Allows remote waiting via QR codes or Web. Eliminates standing in physical lines.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 2: Sensor & Self-Learning -->
+                <div class="space-y-6">
+                    <h4 class="text-primary font-headline font-black text-xl tracking-tight flex items-center gap-2 border-b border-primary/10 pb-2">
+                        <span class="material-symbols-outlined text-xl">sensors</span>
+                        2. Sensor & Analytics
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <!-- Step 6 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">06</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">IR Sensor Detection</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">IR/Proximity sensor detects customer arrival at the desk and starts the service timer.</p>
+                            </div>
+                        </div>
+                        <!-- Step 7 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">07</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Service Completion</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Sensor detects customer departure, stopping the service timer and logging the duration.</p>
+                            </div>
+                        </div>
+                        <!-- Step 8 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">08</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Self-Learning Predictor</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Calculates and updates average counter service duration based on historical session times.</p>
+                            </div>
+                        </div>
+                        <!-- Step 9 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">09</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Predictive Wait Times</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Uses the updated moving average and remaining queue length to update customer wait predictions.</p>
+                            </div>
+                        </div>
+                        <!-- Step 10 -->
+                        <div class="flex gap-4">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold font-display text-sm mt-0.5">10</span>
+                            <div>
+                                <h5 class="font-bold text-primary text-base">Staff Dashboard Calling</h5>
+                                <p class="text-on-surface-variant text-sm mt-1">Staff calls next customer, updating current serving token and live tracking screens.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps 11 & 12 Bottom Section -->
+            <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col md:flex-row gap-6 mt-4">
+                <div class="flex-1 flex gap-3">
+                    <span class="material-symbols-outlined text-secondary text-2xl flex-shrink-0 mt-0.5">check_circle</span>
+                    <div>
+                        <h5 class="font-bold text-primary text-base">11. Token Completion</h5>
+                        <p class="text-on-surface-variant text-sm mt-1">Queue count decreases, and new predictions are dynamically pushed to tracking screens.</p>
+                    </div>
+                </div>
+                <div class="flex-1 flex gap-3">
+                    <span class="material-symbols-outlined text-secondary text-2xl flex-shrink-0 mt-0.5">rocket_launch</span>
+                    <div>
+                        <h5 class="font-bold text-primary text-base">12. System Output</h5>
+                        <p class="text-on-surface-variant text-sm mt-1">Zero wait uncertainty, optimized counter distribution, and zero camera intrusion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>
